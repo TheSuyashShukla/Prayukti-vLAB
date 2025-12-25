@@ -1,7 +1,7 @@
 import { Handle, Position, useReactFlow } from '@xyflow/react';
 import { useState } from 'react';
 
-export default function InputNode({ data, id }: { data: any, id: string }) {
+export default function InputNode({ data, id }: { data: { label?: string; value?: number }; id: string }) {
     const { setNodes } = useReactFlow();
     const isOn = !!data.value;
 

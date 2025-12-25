@@ -1,6 +1,6 @@
 import { Handle, Position } from '@xyflow/react';
 
-export default function NorGate({ data }: { data: any }) {
+export default function NorGate() {
     return (
         <div className="bg-white border-2 border-black rounded-lg w-16 h-16 flex items-center justify-center relative shadow-sm" style={{ borderRadius: '0 50% 50% 0' }}>
             <div className="text-xs font-bold z-10">NOR</div>

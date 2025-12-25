@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ReactFlow, Controls, Background, useNodesState, useEdgesState, addEdge, Connection, Edge, Node, reconnectEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { evaluateCircuit } from '@/lib/circuit-engine';
@@ -31,7 +31,7 @@ const nodeTypes = {
     xnor: XnorGate,
     inputNode: InputNode,
     outputNode: OutputNode,
-};
+} as any;
 
 type AppNode = Node & {
     data: {
@@ -114,7 +114,7 @@ export default function CircuitCanvas() {
                 })
             });
             alert('Circuit saved!');
-        } catch (e) {
+        } catch {
             alert('Failed to save circuit');
         }
     };

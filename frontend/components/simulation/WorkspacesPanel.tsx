@@ -23,16 +23,16 @@ export function WorkspacesPanel({ isOpen, onClose, data, loading }: WorkspacesPa
     useMemo(() => {
         if (data) {
             if (data.outputNames.length > 0 && !selectedKMapOutput) {
-                setSelectedKMapOutput(data.outputNames[0]);
+                setSelectedKMapOutput(data.outputNames[0] || '');
             }
             if (data.inputNames.length > 0 && !presentStateInput) {
-                setPresentStateInput(data.inputNames[0]);
+                setPresentStateInput(data.inputNames[0] || '');
             }
             if (data.outputNames.length > 0 && !nextStateOutput) {
-                setNextStateOutput(data.outputNames[0]);
+                setNextStateOutput(data.outputNames[0] || '');
             }
         }
-    }, [data]);
+    }, [data, selectedKMapOutput, presentStateInput, nextStateOutput]);
 
     if (!isOpen) return null;
 
@@ -125,7 +125,7 @@ export function WorkspacesPanel({ isOpen, onClose, data, loading }: WorkspacesPa
 
                             {/* Cells */}
                             {mapIndices[rIdx].map((dataIndex, cIdx) => {
-                                const val = data.rows[dataIndex].outputs[selectedKMapOutput];
+                                const val = data.rows[dataIndex]?.outputs?.[selectedKMapOutput];
                                 return (
                                     <div key={cIdx} className={`w-10 h-10 flex items-center justify-center border-l border-t border-gray-200 font-bold ${val ? 'text-[#d32f2f] bg-red-50' : 'text-gray-400'}`}>
                                         {val}
