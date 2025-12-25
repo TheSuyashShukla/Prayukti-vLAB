@@ -1,9 +1,16 @@
 "use client";
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { ReactFlow, Controls, Background, useNodesState, useEdgesState, addEdge, Connection, Edge, Node, reconnectEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { evaluateCircuit } from '@/lib/circuit-engine';
+import { generateTruthTable, TableData } from '@/lib/table-generator';
+import { WorkspacesPanel } from './WorkspacesPanel';
+import { Table } from 'lucide-react';
+
+// Use environment variable for API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 import AndGate from './nodes/AndGate';
 import OrGate from './nodes/OrGate';
 import NotGate from './nodes/NotGate';
@@ -47,12 +54,34 @@ export default function CircuitCanvas() {
     const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+    // Workspaces State
+    const [showWorkspaces, setShowWorkspaces] = useState(false);
+    const [tableData, setTableData] = useState<TableData | null>(null);
+    const [generating, setGenerating] = useState(false);
+
+    const handleWorkspacesOpen = () => {
+        setShowWorkspaces(true);
+        setGenerating(true);
+
+        // Small timeout to allow UI to open before heavy calculation
+        setTimeout(() => {
+            try {
+                const data = generateTruthTable(nodes, edges);
+                setTableData(data);
+            } catch (err) {
+                console.error("Analysis failed", err);
+                alert("Failed to analyze circuit. Ensure inputs are limited (<10).");
+                setShowWorkspaces(false);
+            } finally {
+                setGenerating(false);
+            }
+        }, 100);
+    };
+
     const onConnect = useCallback(
         (params: Connection) => setEdges((eds) => addEdge(params, eds)),
         [setEdges],
     );
-
-    // Removed manual onInputToggle injection in favor of useReactFlow in InputNode
 
     // Simulation Loop
     useEffect(() => {
@@ -66,10 +95,6 @@ export default function CircuitCanvas() {
 
     }, [nodes, edges, setNodes]);
 
-    // Correction: The InputNode toggle needs to update the parent state to trigger this effect.
-    // The current InputNode uses local state. We need to lift that up or use onNodesChange properly.
-    // Better: We provide a custom `onToggle` callback    // ... existing onInputToggle ...
-
     const saveCircuit = async () => {
         const circuitName = prompt("Enter circuit name:");
         if (!circuitName) return;
@@ -78,7 +103,7 @@ export default function CircuitCanvas() {
         const userId = "mock-user-123";
 
         try {
-            await fetch('http://localhost:5000/api/circuits', {
+            await fetch(`${API_URL}/api/circuits`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -138,18 +163,33 @@ export default function CircuitCanvas() {
                 <div className="border-l h-6 mx-1"></div>
                 <button className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs border" onClick={() => {
                     const id = Math.random().toString();
-                    setNodes((nds) => nds.concat({ id, position: { x: 100, y: 100 }, data: { label: 'Input' }, type: 'inputNode' }));
+                    setNodes((nds) => nds.concat({ id, position: { x: 100, y: 100 }, data: { label: `Input ${nds.filter(n => n.type === 'inputNode').length + 1}` }, type: 'inputNode' }));
                 }}>+ Input</button>
                 <button className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-xs border" onClick={() => {
                     const id = Math.random().toString();
-                    setNodes((nds) => nds.concat({ id, position: { x: 100, y: 100 }, data: { label: 'Output' }, type: 'outputNode' }));
+                    setNodes((nds) => nds.concat({ id, position: { x: 100, y: 100 }, data: { label: `Output ${nds.filter(n => n.type === 'outputNode').length + 1}` }, type: 'outputNode' }));
                 }}>+ Output</button>
+
+                <div className="border-l h-6 mx-1"></div>
+                <button
+                    className={`px-3 py-1 rounded text-xs border flex items-center gap-1 ${showWorkspaces ? 'bg-orange-100 border-orange-300 text-orange-700' : 'bg-gray-100'}`}
+                    onClick={handleWorkspacesOpen}
+                >
+                    <Table size={14} /> Workspaces
+                </button>
 
                 <div className="flex-1"></div>
                 <button className="px-4 py-1 bg-[#d32f2f] hover:bg-[#b71c1c] text-white rounded text-xs font-bold" onClick={saveCircuit}>
                     SAVE CIRCUIT
                 </button>
             </div>
+
+            <WorkspacesPanel
+                isOpen={showWorkspaces}
+                onClose={() => setShowWorkspaces(false)}
+                data={tableData}
+                loading={generating}
+            />
 
             <div className="flex-1">
                 <ReactFlow

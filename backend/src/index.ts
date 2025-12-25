@@ -13,10 +13,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
-import authRoutes from "./routes/auth";
+import authRoutes from "./routes/auth.js";
 
 import mongoose from "mongoose";
-import circuitRoutes from "./routes/circuit";
+import circuitRoutes from "./routes/circuit.js";
 
 // ... existing auth import
 

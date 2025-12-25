@@ -1,4 +1,5 @@
 import { Handle, Position, useReactFlow } from '@xyflow/react';
+import { useState } from 'react';
 
 export default function InputNode({ data, id }: { data: any, id: string }) {
     const { setNodes } = useReactFlow();
@@ -14,9 +15,49 @@ export default function InputNode({ data, id }: { data: any, id: string }) {
         }));
     };
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [label, setLabel] = useState(data.label || 'Input');
+
+    const handleDoubleClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent canvas events
+        setIsEditing(true);
+    };
+
+    const handleBlur = () => {
+        setIsEditing(false);
+        setNodes((nds) => nds.map((n) => {
+            if (n.id === id) {
+                return { ...n, data: { ...n.data, label } };
+            }
+            return n;
+        }));
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleBlur();
+        }
+    };
+
     return (
-        <div className="bg-white border text-center p-2 rounded shadow-sm">
-            <label className="block text-xs font-bold mb-1 break-words max-w-[80px]">{data.label || 'Input'}</label>
+        <div className="bg-white border text-center p-2 rounded shadow-sm min-w-[60px]">
+            {isEditing ? (
+                <input
+                    autoFocus
+                    className="text-xs font-bold mb-1 w-full text-center border-none focus:ring-0 p-0"
+                    value={label}
+                    onChange={(e) => setLabel(e.target.value)}
+                    onBlur={handleBlur}
+                    onKeyDown={handleKeyDown}
+                />
+            ) : (
+                <label
+                    className="block text-xs font-bold mb-1 break-words max-w-[80px] cursor-text"
+                    onDoubleClick={handleDoubleClick}
+                >
+                    {data.label || 'Input'}
+                </label>
+            )}
             <button
                 onClick={toggle}
                 className={`w-12 h-6 rounded-full transition-colors relative ${isOn ? 'bg-green-500' : 'bg-gray-300'}`}

@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Top Bar - Academic/Govt style */}
-      <div className="bg-[#d32f2f] text-white text-xs py-1 px-4 flex justify-between items-center">
+      <div className="bg-[#d32f2f] text-white text-xs py-1 px-4 flex flex-col md:flex-row justify-between items-center gap-2">
         <div className="flex gap-4">
           <span>Screen Reader Access</span>
           <span>Skip to Main Content</span>
@@ -20,14 +20,14 @@ export default function Home() {
 
       {/* Header / Logo Section */}
       <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
+        <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-4">
             {/* Placeholder for Logo */}
-            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-500">
+            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-500 shrink-0">
               LOGO
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#d32f2f] leading-tight">
+              <h1 className="text-xl md:text-2xl font-bold text-[#d32f2f] leading-tight">
                 Madan Mohan Malaviya University of Technology
               </h1>
               <p className="text-sm text-gray-600">
@@ -39,7 +39,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex gap-2">
-            <div className="text-right hidden md:block">
+            <div className="text-center md:text-right hidden md:block">
               <p className="font-bold text-sm">Azadi Ka Amrit Mahotsav</p>
               <p className="text-xs text-gray-500">Celebrating 75 Years</p>
             </div>
@@ -47,9 +47,9 @@ export default function Home() {
         </div>
 
         {/* Navigation Bar - Orange/Yellow theme from screenshot */}
-        <nav className="bg-[#f57f17] text-white">
-          <div className="container mx-auto px-0">
-            <ul className="flex flex-wrap text-sm font-medium">
+        <nav className="bg-[#f57f17] text-white overflow-x-auto">
+          <div className="container mx-auto px-0 min-w-max md:min-w-0">
+            <ul className="flex text-sm font-medium whitespace-nowrap">
               <li className="px-4 py-3 hover:bg-[#e65100] cursor-pointer border-r border-orange-600">Home</li>
               <li className="px-4 py-3 hover:bg-[#e65100] cursor-pointer border-r border-orange-600">The University</li>
               <li className="px-4 py-3 hover:bg-[#e65100] cursor-pointer border-r border-orange-600">Academics</li>

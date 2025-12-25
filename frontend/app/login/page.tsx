@@ -4,8 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+
 import { Loader2 } from "lucide-react";
+
+// Use environment variable for API URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -27,7 +30,7 @@ export default function LoginPage() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/api/auth/login", {
+            const res = await fetch(`${API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
