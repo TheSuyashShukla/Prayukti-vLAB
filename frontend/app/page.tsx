@@ -27,11 +27,11 @@ export default function Home() {
               LOGO
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-[#d32f2f] leading-tight">
-                Madan Mohan Malaviya University of Technology
-              </h1>
-              <p className="text-sm text-gray-600">
-                Gorakhpur, Uttar Pradesh, India
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 drop-shadow-md">
+                Welcome to MMMUT&apos;s Virtual Lab
+              </h2>
+              <p className="text-lg md:text-xl mb-8 drop-shadow-sm">
+                Experience &quot;Prayukti&quot; - The Fusion of Technology and Practical Learning
               </p>
               <p className="text-xs text-gray-400">
                 (Established by U.P. Act No. 22 of 2013 of U.P. Government)

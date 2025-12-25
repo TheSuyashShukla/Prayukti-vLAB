@@ -22,7 +22,7 @@ export function evaluateCircuit(nodes: Node[], edges: Edge[]): Node[] {
     // Clone nodes to avoid mutation during iteration if not careful, 
     // but here we just want to calculate new data.
     const newNodes = nodes.map(n => ({ ...n, data: { ...n.data } }));
-    const nodeMap = new Map(newNodes.map(n => [n.id, n]));
+    // const nodeMap = new Map(newNodes.map(n => [n.id, n])); // Unused
 
     while (!cleanPasss && iterations < 10) {
         cleanPasss = true;

@@ -1,6 +1,6 @@
 import { Handle, Position } from '@xyflow/react';
 
-export default function XnorGate({ data }: { data: any }) {
+export default function XnorGate() {
     return (
         <div className="bg-white border-2 border-black rounded-lg w-16 h-16 flex items-center justify-center relative shadow-sm">
             <div className="text-xs font-bold">XNOR</div>

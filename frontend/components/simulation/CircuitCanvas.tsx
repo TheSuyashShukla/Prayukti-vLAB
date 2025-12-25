@@ -31,6 +31,7 @@ const nodeTypes = {
     xnor: XnorGate,
     inputNode: InputNode,
     outputNode: OutputNode,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
 
 type AppNode = Node & {

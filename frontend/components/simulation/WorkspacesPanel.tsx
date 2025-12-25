@@ -124,7 +124,7 @@ export function WorkspacesPanel({ isOpen, onClose, data, loading }: WorkspacesPa
                             </div>
 
                             {/* Cells */}
-                            {mapIndices[rIdx].map((dataIndex, cIdx) => {
+                            {mapIndices[rIdx] && mapIndices[rIdx].map((dataIndex, cIdx) => {
                                 const val = data.rows[dataIndex]?.outputs?.[selectedKMapOutput];
                                 return (
                                     <div key={cIdx} className={`w-10 h-10 flex items-center justify-center border-l border-t border-gray-200 font-bold ${val ? 'text-[#d32f2f] bg-red-50' : 'text-gray-400'}`}>
