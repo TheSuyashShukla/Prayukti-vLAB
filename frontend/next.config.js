@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // Force restart
+    transpilePackages: ["@repo/ui"],
 };
 
 export default nextConfig;
