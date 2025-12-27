@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
     return (
@@ -11,10 +10,8 @@ export default function NotFound() {
             <p className="text-gray-600 mb-8 max-w-md text-center">
                 The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
             </p>
-            <Link href="/">
-                <Button className="bg-[#f57f17] hover:bg-[#e65100] text-white font-bold">
-                    Return Home
-                </Button>
+            <Link href="/" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#f57f17] hover:bg-[#e65100] text-white h-10 px-4 py-2 font-bold">
+                Return Home
             </Link>
         </div>
     );
